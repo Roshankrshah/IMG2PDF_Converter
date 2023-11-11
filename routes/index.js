@@ -5,6 +5,8 @@ var multer = require('multer');
 var path = require('path');
 var fs = require('fs');
 
+var {unlink} = require('fs/promises');
+
 var PDFDocument = require('pdfkit');
 
 let storage = multer.diskStorage({
@@ -63,6 +65,21 @@ router.post('/pdf',function(req,res,next){
   }
   doc.end();
   res.send(`/pdf/${pdfName}`);
+})
+
+router.get('/new',function(req,res,next){
+  let filenames = req.session.imagefiles;
+
+  let deleteFiles = async(paths)=>{
+    let deleting = paths.map(file=> unlink(path.join(__dirname,'..',`/public/images/${file}`)))
+    await Promise.all(deleting);
+  }
+  deleteFiles(filenames);;
+
+  req.session.imagefiles = undefined;
+
+  res.redirect('/');
+
 })
 
 module.exports = router;
