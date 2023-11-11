@@ -6,7 +6,7 @@ let sort = Sortable.create(list);
 let convertButton = document.querySelector('a.convert');
 
 convertButton.onclick = function(){
-    let images = document.querySelector('img');
+    let images = document.querySelectorAll('img');
     let loader = document.querySelector('span.loader');
     let convertText = document.querySelector('span.text');
     let downloadButton = document.querySelector('a.download');
